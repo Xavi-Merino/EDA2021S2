@@ -10,5 +10,5 @@ void equal_length(char *key1, char *key2){
 }
 
 void all_char_different(char *key1, char *key2){
-
+    
 }
