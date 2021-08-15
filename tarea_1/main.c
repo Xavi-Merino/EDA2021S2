@@ -26,8 +26,27 @@ int main(int argc, char *argv[])
         main_exit_code = EXIT_FAILURE;
         exit(0);
     }
+    //Validación de que largo de las 2 palabras clave deben ser iguales
+    char *arg3 = argv[3];
+    char *arg4 = argv[4];
+    if (strlen(arg3) != strlen(arg4))
+    {
+        fprintf(stderr, "¡Error! El largo de las palabras clave debe ser igual\n");
+        main_exit_code = EXIT_FAILURE;
+        exit(0);
+    }
 
-    //1. probamos la entrada del algoritmo con el input de ejemplo de ejecución de las instrucciones de la tarea
+    //Validación de que el nombre de archivo de entrada debe ser distinto al de salida
+    char *arg1 = argv[1];
+    char *arg5 = argv[5];
+    if (strcmp(arg1, arg5) == 0)
+    {
+        fprintf(stderr, "¡Error! El nombre de archivo de entrada debe ser distinto al de salida\n");
+        main_exit_code = EXIT_FAILURE;
+        exit(0);
+    }
+
+    //Probamos la entrada del algoritmo con el input de ejemplo de ejecución de las instrucciones de la tarea
     int i;
     printf("argc = %d\n", argc);
     for (i = 0; i < argc; i++)
@@ -35,7 +54,7 @@ int main(int argc, char *argv[])
         printf("argv[%d] = %s\n", i, argv[i]);
     }
 
-    //2. validación y verificación de argumentos
+        //2. validación y verificación de argumentos
 
     // char *mensaje = argv[1];
     // char temp[1000];
