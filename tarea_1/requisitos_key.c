@@ -1,15 +1,33 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "requisitos_key.h"
 
-void equal_length(int key1_len, int key2_len)
-{
-  if (key1_len != key2_len)
+
+/*(primer requisito)funcion que verifica que los largos de las key 
+  sean iguales*/
+int equal_length(char *arg3, char *arg4, int main_exit_code){
+  if (strlen(arg3) != strlen(arg4))
   {
-    printf("las key son de distinta longitud, intenta con keys del mismo largo\n");
+    fprintf(stderr, "¡Error! El largo de las palabras clave debe ser igual\n");
+    main_exit_code = EXIT_FAILURE;
+    exit(0);
   }
+  return main_exit_code;
 }
+
+/*funcion para comparar que las letras de las key no sean iguales*/
+int letters_not_equal(char *arg3, char *arg4, int main_exit_code){
+  for(int i = 0; i <=  strlen(arg3)-1 ; i++){
+    if(arg3[i] == arg4[i])
+    {
+      fprintf(stderr, "¡Error! la letra %c se repite en ambas key\n", arg3[i]);
+      main_exit_code = EXIT_FAILURE;
+      exit(0);
+    }
+  }
+  return main_exit_code;
+}
+
 
 /*funcion que verifica que las letras sean distintas, esto lo hace
   creando un array de 127 posiciones, en el cual cada posición representa
@@ -19,27 +37,25 @@ void equal_length(int key1_len, int key2_len)
   tras registrar la cantidad existente de cada letra en la key, se verifica 
   si alguna letra aparece mas de una vez, en tal caso se imprime cual de 
   las key es la que contiene caracteres repetidos */
-void all_char_different(char *key, int key_len)
-{
+int all_char_different(char *key ,int main_exit_code){
 
   int *abecedario;
-  abecedario = (int *)calloc(127, sizeof(int));
-  for (int i = 0; i <= key_len; i++)
-  {
-    if (abecedario[key[i]] == 0)
-    {
-      abecedario[key[i]] = 1;
-    }
-    else if (abecedario[key[i]] != 0)
-    {
-      abecedario[key[i]] += 1;
-    }
+  abecedario = (int *) calloc(127, sizeof(int));
+  for(int i = 0;i <= strlen(key); i++ ){
+      if(abecedario[key[i]] == 0){
+          abecedario[key[i]] = 1;
+      }
+      else if (abecedario[key[i]] != 0){
+          abecedario[key[i]] += 1;
+      }                
   }
-  for (int j = 0; j <= 127; j++)
-  {
-    if (abecedario[j] > 1)
-    {
-      printf("la key '%s' contiene letras repetidas\n", key);
-    }
+  for(int j = 0 ; j <= 127; j++){
+      if(abecedario[j] > 1 ){
+      fprintf(stderr, "¡Error! la key '%s' contiene letras repetidas\n", key);
+      main_exit_code = EXIT_FAILURE;
+      exit(0);
+      }
   }
+  return main_exit_code;  
 }
+
