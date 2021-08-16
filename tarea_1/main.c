@@ -53,14 +53,12 @@ int main(int argc, char *argv[])
     {
         printf("argv[%d] = %s\n", i, argv[i]);
     }
-
-        //2. validación y verificación de argumentos
-
-    // char *mensaje = argv[1];
-    // char temp[1000];
-    // FILE *archivo = fopen(mensaje, "r");
-    // fgets(temp, 999, archivo);
-    // printf("%s\n", temp);
+    //abre archivo de entrada txt y lo almacena en una variable temporal
+    char *mensaje = argv[1];
+    char temp[1000];
+    FILE *archivo = fopen(mensaje, "r");
+    fgets(temp, 999, archivo);
+    printf("%s\n", temp);
 
     // int key1_len = strlen(argv[2]);
     // int key2_len = strlen(argv[3]);
@@ -79,6 +77,10 @@ int main(int argc, char *argv[])
 
     // printf("%c\n", *(key1+2));
     // printf("%s\n", key2);
+    char *mensaje_salida = argv[5];
+    char temp_2[1000];
+    FILE *archivo_salida = fopen(mensaje_salida, "w");
+    fputs("Este es el mensaje final, interpolar con el output de la funcion", archivo_salida);
 
     return (main_exit_code);
 }
