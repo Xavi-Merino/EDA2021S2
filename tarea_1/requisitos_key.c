@@ -41,7 +41,7 @@ int letters_not_equal(char *arg3, char *arg4, int main_exit_code)
 int all_char_different(char *key, int main_exit_code)
 {
   int *abecedario;
-  abecedario = (int *)calloc(256, sizeof(int));
+  abecedario = (int *)calloc(165, sizeof(int));
   for (int i = 0; i <= strlen(key); i++)
   {
     if (abecedario[key[i]] == 0)
@@ -53,7 +53,7 @@ int all_char_different(char *key, int main_exit_code)
       abecedario[key[i]] += 1;
     }
   }
-  for (int j = 0; j <= 256; j++)
+  for (int j = 0; j <= 165; j++)
   {
     if (abecedario[j] > 1)
     {

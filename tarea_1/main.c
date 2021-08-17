@@ -63,15 +63,15 @@ int main(int argc, char *argv[])
 
     char *mensaje_salida = argv[5];
     char temp_2[1000];
-    if (strcmp(arg2, "decode"))
+    if (strcmp(arg2, "encode") == 0)
     {
-        encrypt(arg2, arg3, arg4, temp);
+        encrypt(arg3, arg4, temp);
     }
     else
     {
-        decrypt(arg3, arg3, arg4, temp);
+        decrypt(arg3, arg4, temp);
     }
-    crypt(arg2, arg3, arg4, temp);
+
     FILE *archivo_salida = fopen(mensaje_salida, "w");
     fputs(temp_2, archivo_salida);
 
