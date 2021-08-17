@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "requisitos_key.h"
+#include "funciones.h"
 
 int main(int argc, char *argv[])
 {
@@ -62,8 +63,17 @@ int main(int argc, char *argv[])
 
     char *mensaje_salida = argv[5];
     char temp_2[1000];
+    if (strcmp(arg2, "decode"))
+    {
+        encrypt(arg2, arg3, arg4, temp);
+    }
+    else
+    {
+        decrypt(arg3, arg3, arg4, temp);
+    }
+    crypt(arg2, arg3, arg4, temp);
     FILE *archivo_salida = fopen(mensaje_salida, "w");
-    fputs("Este es el mensaje final, interpolar con el output de la funcion", archivo_salida);
+    fputs(temp_2, archivo_salida);
 
     return (main_exit_code);
 }
