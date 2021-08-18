@@ -62,18 +62,19 @@ int main(int argc, char *argv[])
     printf("%s\n", temp);
 
     char *mensaje_salida = argv[5];
-    char temp_2[1000];
     if (strcmp(arg2, "encode") == 0)
     {
-        encrypt(arg3, arg4, temp);
+        const char *salida = encrypt(arg3, arg4, temp);
+        FILE *archivo_salida = fopen(mensaje_salida, "w");
+        fputs(salida, archivo_salida);
     }
     else
     {
         decrypt(arg3, arg4, temp);
     }
 
-    FILE *archivo_salida = fopen(mensaje_salida, "w");
-    fputs(temp_2, archivo_salida);
+    //FILE *archivo_salida = fopen(mensaje_salida, "w");
+    //fputs(salida, archivo_salida);
 
     return (main_exit_code);
 }

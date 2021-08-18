@@ -1,34 +1,71 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-char encrypt(char *key1, char *key2, char *entrada)
+const char *encrypt(char *key1, char *key2, char *entrada)
 {
   char *salida;
   salida = entrada;
-  char *aux;
-  for (int i=0 ; i <=strlen(salida)-1; i++ )
+  char aux;
+
+  for (int k = 0; k < strlen(key1); k++)
   {
-    for (int j=0; j <= strlen(key1) -1 ; j++ )
+    if (key1[k] >= 65 && key1[k] <= 90)
     {
-      if(salida[i] == key1[j])
+      key1[k] = key1[k] + 32;
+    }
+  }
+  for (int k = 0; k < strlen(key2); k++)
+  {
+    if (key2[k] >= 65 && key2[k] <= 90)
+    {
+      key2[k] = key2[k] + 32;
+    }
+  }
+
+  for (int i = 0; i < strlen(salida); i++)
+  {
+    for (int j = 0; j < strlen(key1); j++)
+    {
+      if (salida[i] >= 65 && salida[i] <= 90)
       {
-        aux = key2[j];
-        salida[i] = aux;
+        salida[i] = salida[i] + 32;
+        if (salida[i] == key1[j])
+        {
+          aux = key2[j];
+          salida[i] = aux;
+        }
+        else if (salida[i] == key2[j])
+        {
+          aux = key1[j];
+          salida[i] = aux;
+        }
+        salida[i] = salida[i] - 32;
       }
-      else if(salida[i] == key2[j])
+      else
       {
-        aux = key1[j];
-        salida[i] = aux;
+
+        if (salida[i] == key1[j])
+        {
+          aux = key2[j];
+          salida[i] = aux;
+        }
+        else if (salida[i] == key2[j])
+        {
+          aux = key1[j];
+          salida[i] = aux;
+        }
       }
     }
+
     printf("%c", salida[i]);
   }
-  // return salida;
+  return salida;
 }
 
 char decrypt(char *key1, char *key2, char *entrada)
 {
 
-//   return salida;
+  //   return salida;
 }
