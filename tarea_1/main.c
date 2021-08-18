@@ -70,7 +70,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        decrypt(arg3, arg4, temp);
+        const char *salida = decrypt(arg3, arg4, temp);
+        FILE *archivo_salida = fopen(mensaje_salida, "w");
+        fputs(salida, archivo_salida);
     }
 
     //FILE *archivo_salida = fopen(mensaje_salida, "w");
