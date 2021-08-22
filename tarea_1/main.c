@@ -46,20 +46,11 @@ int main(int argc, char *argv[])
         main_exit_code = EXIT_FAILURE;
         exit(0);
     }
-
-    //Probamos la entrada del algoritmo con el input de ejemplo de ejecución de las instrucciones de la tarea
-    int i;
-    printf("argc = %d\n", argc);
-    for (i = 0; i < argc; i++)
-    {
-        printf("argv[%d] = %s\n", i, argv[i]);
-    }
     //abre archivo de entrada txt y lo almacena en una variable temporal
     char *mensaje = argv[1];
     char temp[1000];
     FILE *archivo = fopen(mensaje, "r");
     fgets(temp, 999, archivo);
-    printf("%s\n", temp);
 
     char *mensaje_salida = argv[5];
     if (strcmp(arg2, "encode") == 0)

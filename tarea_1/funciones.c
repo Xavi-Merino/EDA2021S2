@@ -58,8 +58,6 @@ const char *encrypt(char *key1, char *key2, char *entrada)
         }
       }
     }
-
-    printf("%c", salida[i]);
   }
   return salida;
 }
@@ -119,8 +117,6 @@ const char *decrypt(char *key1, char *key2, char *entrada)
         }
       }
     }
-
-    printf("%c", salida[i]);
   }
   return salida;
 }
