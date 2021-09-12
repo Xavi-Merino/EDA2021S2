@@ -2,6 +2,8 @@
 
 #include <string.h>
 
+#define ATTKPROB 1.100000
+
 persona* leer_archivo(char* filename, int* N) {
   FILE* filelist;
   filelist = fopen(filename, "r");
@@ -25,9 +27,13 @@ persona* leer_archivo(char* filename, int* N) {
     strcpy(p.name, strtok(line, ","));
     p.danger_category = atoi(strtok(NULL, ","));
     p.attack_prob = atof(strtok(NULL, ","));
+    if (p.attack_prob == 0.0 && (p.danger_category == 4 || p.danger_category == 5)){
+      p.attack_prob = ATTKPROB;
+    }
     personas[count] = p;
     count++;
   }
+
   return personas;
 }
 
@@ -54,17 +60,19 @@ static void Merge(persona* arr, int low, int mid,
   int rightPos = mid + 1;
   while (leftPos <= mid && rightPos <= high)  // aca sucede la magia
   {
-    if (arr[leftPos].danger_category >=
+    if (arr[leftPos].danger_category >
         arr[rightPos].danger_category)  // 1ro ordenamos por categoria
     {
       temp[mergePos++] = arr[leftPos++];
-    } else if ((arr[leftPos].danger_category ==
+    } 
+    else if ((arr[leftPos].danger_category ==
                 arr[rightPos].danger_category) &&
-               arr[leftPos].attack_prob >=
+               arr[leftPos].attack_prob >
                    arr[rightPos].attack_prob)  // 2do por attack_prob
     {
       temp[mergePos++] = arr[leftPos++];
-    } else {
+    } 
+    else {
       temp[mergePos++] = arr[rightPos++];
     }
   }
@@ -109,30 +117,28 @@ void alphabetical_if_equal(persona* arr, int cant_personas) {
   }
 }
 
-void swap_cat12_0prob(persona* arr, int cant_personas) {
-  persona tmp;
-  int cant_cat1 = 0, cant_cat2 = 0;
+void case_without_attk_prob45(persona* arr, int cant_personas) {
+  for (int i = 0; i < cant_personas ; i++)
+  {
+    if (arr[i].attack_prob > 1){
+      arr[i].attack_prob = 0;
+    }
+  }
+}
 
-  for (int i = 0; i < cant_personas; i++) {
-    if (arr[i].danger_category == 1) {
-      cant_cat1++;
-    } else if (arr[i].danger_category == 2) {
-      cant_cat2++;
-    }
+void mid_insertion(persona* arr, int l, int r){
+  int mid = l + (l-r)/2; 
+
+}
+
+void case_without_attk_prob3(persona* arr, int cant_persona){
+  int cant_cat3 = 0;
+  for(int i = 0; i < cant_persona ; i++){
+    if(arr[i].danger_category == 3) cant_cat3++;
   }
-  printf("%d %d", cant_cat1, cant_cat2);
-  for (int i = 0; i < cant_cat1 - 1; i++) {
-    if (arr[i].attack_prob == 0 && i != cant_cat1) {
-      tmp = arr[i];
-    }
-    arr[i] = arr[i + 1];
-    arr[cant_cat1 - 1] = tmp;
-  }
-  for (int i = cant_cat1; i < cant_cat2 - 1; i++) {
-    if (arr[i].attack_prob == 0 && i != cant_cat2) {
-      tmp = arr[i];
-    }
-    arr[i] = arr[i + 1];
-    arr[cant_cat2 - 1] = tmp;
-  }
+  int m = cant_cat3 /2 ; 
+
+
+
+
 }
