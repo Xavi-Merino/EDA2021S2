@@ -16,3 +16,4 @@ persona* ordena_peligro(persona* p, int cant_personas);
 static void Merge(persona* arr, int low, int mid, int high);
 void MergeSort(persona* arr, int low, int high);
 void swap_cat12_0prob(persona* arr, int cant_personas);
+void alphabetical_if_equal(persona* arr, int cant_personas);

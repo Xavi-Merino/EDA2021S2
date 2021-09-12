@@ -54,13 +54,13 @@ static void Merge(persona* arr, int low, int mid,
   int rightPos = mid + 1;
   while (leftPos <= mid && rightPos <= high)  // aca sucede la magia
   {
-    if (arr[leftPos].danger_category <
+    if (arr[leftPos].danger_category >=
         arr[rightPos].danger_category)  // 1ro ordenamos por categoria
     {
       temp[mergePos++] = arr[leftPos++];
     } else if ((arr[leftPos].danger_category ==
                 arr[rightPos].danger_category) &&
-               arr[leftPos].attack_prob <
+               arr[leftPos].attack_prob >=
                    arr[rightPos].attack_prob)  // 2do por attack_prob
     {
       temp[mergePos++] = arr[leftPos++];
@@ -91,6 +91,21 @@ void MergeSort(persona* arr, int low, int high) {
     MergeSort(arr, mid + 1, high);
 
     Merge(arr, low, mid, high);
+  }
+}
+
+void alphabetical_if_equal(persona* arr, int cant_personas) {
+  for (int i = 0; i < cant_personas;
+       i++) {  // algoritmo bubble sort para ordenar alfabéticamente
+    for (int j = 0; j < cant_personas - 1 - i; j++) {
+      if ((arr[j].danger_category == arr[j + 1].danger_category) &&
+          (arr[j].attack_prob == arr[j + 1].attack_prob)) {
+        if (strcmp(arr[j].name, arr[j + 1].name) > 0) {
+          // swap array[j] and array[j+1]
+          swap(&arr[j], &arr[j + 1]);
+        }
+      }
+    }
   }
 }
 
