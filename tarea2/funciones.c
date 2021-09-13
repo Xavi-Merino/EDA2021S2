@@ -27,7 +27,10 @@ persona* leer_archivo(char* filename, int* N) {
     strcpy(p.name, strtok(line, ","));
     p.danger_category = atoi(strtok(NULL, ","));
     p.attack_prob = atof(strtok(NULL, ","));
-    if (p.attack_prob == 0.0 && (p.danger_category == 4 || p.danger_category == 5)){
+    if (p.attack_prob == 0.0 &&
+        (p.danger_category == 4 || p.danger_category == 5)) {
+      p.attack_prob = ATTKPROB;
+    } else if (p.attack_prob == 0.0 && p.danger_category == 3) {
       p.attack_prob = ATTKPROB;
     }
     personas[count] = p;
@@ -64,15 +67,13 @@ static void Merge(persona* arr, int low, int mid,
         arr[rightPos].danger_category)  // 1ro ordenamos por categoria
     {
       temp[mergePos++] = arr[leftPos++];
-    } 
-    else if ((arr[leftPos].danger_category ==
+    } else if ((arr[leftPos].danger_category ==
                 arr[rightPos].danger_category) &&
                arr[leftPos].attack_prob >
                    arr[rightPos].attack_prob)  // 2do por attack_prob
     {
       temp[mergePos++] = arr[leftPos++];
-    } 
-    else {
+    } else {
       temp[mergePos++] = arr[rightPos++];
     }
   }
@@ -118,27 +119,34 @@ void alphabetical_if_equal(persona* arr, int cant_personas) {
 }
 
 void case_without_attk_prob45(persona* arr, int cant_personas) {
-  for (int i = 0; i < cant_personas ; i++)
-  {
-    if (arr[i].attack_prob > 1){
+  for (int i = 0; i < cant_personas; i++) {
+    if (arr[i].attack_prob > 1) {
       arr[i].attack_prob = 0;
     }
   }
 }
 
-void mid_insertion(persona* arr, int l, int r){
-  int mid = l + (l-r)/2; 
+// void mid_insertion(persona* arr, int l, int r) { int mid = l + (l - r) / 2; }
 
-}
-
-void case_without_attk_prob3(persona* arr, int cant_persona){
+void case_without_attk_prob3(persona* arr, int cant_persona) {
   int cant_cat3 = 0;
-  for(int i = 0; i < cant_persona ; i++){
-    if(arr[i].danger_category == 3) cant_cat3++;
-  }
-  int m = cant_cat3 /2 ; 
+  float suma_attack_prob = 0;
+  float mean_attack_prob = 0;
+  for (int i = 0; i < cant_persona; i++) {
+    if (arr[i].danger_category == 3) {
+      cant_cat3 = cant_cat3 + 1;
+    }
+  };
+  persona* array_3 = (persona*)malloc(cant_cat3 * sizeof(persona));
+  for (int i = 0; i < cant_persona; i++) {
+    if (arr[i].danger_category == 3) {
+      array_3[i] = arr[i];
+    }
+  };
 
-
-
-
+  for (int i = 0; i <= cant_cat3; i++) {
+    suma_attack_prob = suma_attack_prob + array_3[i].attack_prob;
+  };
+  mean_attack_prob = suma_attack_prob / cant_cat3;
+  printf("%f", mean_attack_prob);
 }
