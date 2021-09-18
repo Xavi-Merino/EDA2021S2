@@ -7,14 +7,14 @@
 persona* leer_archivo(char* filename, int* N) {
   FILE* filelist;
   filelist = fopen(filename, "r");
-  char line[1000];
+  char line[10000];
   persona p;
   persona* personas;
   int count = 0;
   while (fgets(line, 999, filelist) != NULL) {
     count++;
   }
-  count--;  // para que no cuente el titulo
+  // count--;  // para que no cuente el titulo
   fclose(filelist);
   *N = count;
   personas = (persona*)malloc(count * sizeof(persona));
@@ -133,20 +133,32 @@ void case_without_attk_prob3(persona* arr, int cant_persona) {
   float suma_attack_prob = 0;
   float mean_attack_prob = 0;
   for (int i = 0; i < cant_persona; i++) {
-    if (arr[i].danger_category == 3) {
+    if (arr[i].danger_category == 3 && arr[i].attack_prob != 0.0) {
+      suma_attack_prob = suma_attack_prob + arr[i].attack_prob;
       cant_cat3 = cant_cat3 + 1;
     }
   };
-  persona* array_3 = (persona*)malloc(cant_cat3 * sizeof(persona));
+  if (cant_cat3 != 0) {
+    mean_attack_prob = suma_attack_prob / cant_cat3;
+  }
   for (int i = 0; i < cant_persona; i++) {
-    if (arr[i].danger_category == 3) {
-      array_3[i] = arr[i];
-    }
-  };
+    if ((arr[i].danger_category == 3) && (arr[i].attack_prob == 0))
+      arr[i].attack_prob = mean_attack_prob;
+  }
+}
 
-  for (int i = 0; i <= cant_cat3; i++) {
-    suma_attack_prob = suma_attack_prob + array_3[i].attack_prob;
-  };
-  mean_attack_prob = suma_attack_prob / cant_cat3;
-  printf("%f", mean_attack_prob);
+void output(persona* personas, int n, char* file) {
+  int i = 0;
+  char texto2[10000] = "";
+  persona each_person;
+  char space_text[10000];
+  FILE* file2 = fopen(file, "w");
+  for (i; i < n - 1; i++) {
+    strcpy(space_text, "");
+    strcpy(each_person.name, personas[i].name);
+    strcat(space_text, each_person.name);
+    strcat(space_text, "\n");
+    fputs(space_text, file2);
+  }
+  fclose(file2);
 }

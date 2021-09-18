@@ -50,15 +50,27 @@ int main(int argc, char *argv[]) {
   printf("\n\n");
   // show_personas(p, cant_personas);
 
+  // case_without_attk_prob3(p, cant_personas);
+  // show_personas(p, cant_personas, cant_personas_out);
+  // printf("\n\n");
+
+  // MergeSort(p, 0, cant_personas - 1);
+  // printf("\n\n");
+
+  case_without_attk_prob45(p, cant_personas);
+  // show_personas(p, cant_personas, cant_personas_out);
+  // printf("\n\n");
+  case_without_attk_prob3(p, cant_personas);
+  // show_personas(p, cant_personas, cant_personas_out);
+  // printf("\n\n");
+
   MergeSort(p, 0, cant_personas - 1);
-  printf("\n\n");
+  // printf("\n\n");
 
   alphabetical_if_equal(p, cant_personas);
-  show_personas(p, cant_personas, cant_personas_out);
-  printf("\n\n");
-  case_without_attk_prob45(p, cant_personas);
-  show_personas(p, cant_personas, cant_personas_out);
-  case_without_attk_prob3(p, cant_personas);
+  // show_personas(p, cant_personas, cant_personas_out);
+  // printf("\n\n");
 
+  output(p, cant_personas_out, argv[3]);
   return 0;
 }
