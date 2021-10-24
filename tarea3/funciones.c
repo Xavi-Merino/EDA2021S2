@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#define ATTKPROB 1.100000
+#define ATTKPROB 1.1
 // leemos archivo
 persona* leer_archivo(char* filename, int* N) {
   FILE* filelist;
@@ -69,6 +69,7 @@ void push_back(nodo* head, float attack_prob) {
   cursor->sgte = n;
 }
 // función que agrega elemento al principio de cada lista
+//hash
 
 void push_front(nodo** head, float attack_prob) {
   nodo* tmp = *head;
@@ -80,6 +81,20 @@ void push_front(nodo** head, float attack_prob) {
 // función de hash
 int hash(int dato) { return (dato * 1); }
 
+//order tabla by attack_prob from low to high
+persona ordenar(persona* personas, int N) {
+  persona aux;
+  for (int i = 0; i < N - 1; i++) {
+    for (int j = i + 1; j < N; j++) {
+      if (personas[i].attack_prob > personas[j].attack_prob) {
+        aux = personas[i];
+        personas[i] = personas[j];
+        personas[j] = aux;
+      }
+    }
+  }
+  return personas[0];
+}
 // función que inserta cada lista en el bucket de la tabla de hash
 void insertar(nodo** tabla, int category, float attack_prob) {
   int index = hash(category);

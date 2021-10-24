@@ -73,6 +73,9 @@ int main(int argc, char *argv[]) {
 
   // output(p, cant_personas_out, argv[3]);
 
+  //ordena los nombres por attacke probability
+  ordenar(p, cant_personas);
+
   nodo **tabla;
   tabla = (nodo **)malloc(10 * sizeof(nodo *));
 
@@ -88,6 +91,7 @@ int main(int argc, char *argv[]) {
   }
 
   imprimir_tabla(tabla);
+  show_personas(p, cant_personas, cant_personas_out);
   output(p, cant_personas_out, argv[3]);
 
   return 0;

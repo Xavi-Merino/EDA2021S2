@@ -41,3 +41,4 @@ void case_without_attk_prob45(persona* arr, int cant_personas);
 void swap_prob45(persona* arr, int cantidad);
 void case_without_attk_prob3(persona* arr, int cant_persona);
 void output(persona* a1, int n, char* file);
+persona ordenar(persona* personas, int N);
