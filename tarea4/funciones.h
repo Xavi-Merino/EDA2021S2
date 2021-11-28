@@ -1,34 +1,41 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
-// estructura de nodos den arbol AVL
-typedef struct node {
-  char name[100];
+typedef struct AVLNode
+{
+  struct AVLNode *left;
+  struct AVLNode *right;
+  char name[60];
   int danger_category;
   float attack_prob;
+  float factorPeligro;
   int height;
-  struct node *left;
-  struct node *right;
-} node;
+} AVLNode;
 
-node *read_file(char *filename, int N);
-// operaciones de memoria
-node *new_node(char *name, int danger_category, float attack_prob);
+//memoria
+AVLNode *newAVLNode(char *name, int danger_category, float attack_prob, float factorPeligro);
 
-// oprecaiones de modificación
-node *insert(node *root, char *name, int danger_category, float attack_prob);
+//modificaciones
+AVLNode *insert(AVLNode *root, char *name, int danger_category, float attack_prob, float factorPeligro);
+extern void freeAllMemoryInAVLTree(AVLNode *const);
 
-// leer propiedades de un nodo
-int updateHeight(node *root);
-int getBalance(node *root);
-int height(node *root);
+//balanceo
+extern AVLNode *rotateLeft(AVLNode *const);
+extern AVLNode *rotateRight(AVLNode *const);
 
-// funciones de utilidad
-int max(int a, int b);
+//propiedaes de los nodos
+extern int updateHeight(AVLNode *const);
+extern int balanceFactorOfAVLNode(AVLNode *const);
+extern int heightOfAVLNode(AVLNode *const);
 
-// imprimir arbol
+//utilidades
+extern int max(int const, int const);
+void readFile(char *fileName, AVLNode **root, int *cantidad_personas_in);
+char *finalListInsert(char *name);
 
-void print_node(int max_salida);
-
-void print_personas(node *root);
+//imprimir arbol(arriba izquierda abajo derecha)
+extern void printAVLTree(AVLNode *const);
+extern void printAVLNode(AVLNode *const);
+void reverse_inorder(AVLNode *root);

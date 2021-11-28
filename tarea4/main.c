@@ -1,21 +1,22 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "funciones.h"
 
-int main(int argc, char* argv[]) {
-  if (argc != 3) {
+#define MAX_lARGO_NOMBRE 60
+
+int main(int argc, char *argv[])
+{
+  int cant_personas_out = atoi(argv[2]);
+  int cant_personas_in = 0;
+  if (argc != 3)
+  {
     printf(
         "%s\n",
         "¡ERROR!, el programa debe recibir 2 argumentos (nombre del archivo y "
         "cantidad).");
     exit(-1);
   }
-  int cant_personas_out = atoi(argv[2]);
 
-  if (cant_personas_out < 0) {
+  if (cant_personas_out < 0)
+  {
     printf("%s\n",
            "¡ERROR! Debe ingresar un número no "
            "negativo como cantidad de "
@@ -23,19 +24,28 @@ int main(int argc, char* argv[]) {
     exit(-1);
   }
 
-  if (cant_personas_out == 0) {
+  if (cant_personas_out == 0)
+  {
     printf("%s\n",
            "¡Error! La idea es mostrar una cantidad de personas, y el 0 tiene "
-           "valor nulo...Use un número entero ");
+           "valor nulo...Use un número entero positivo ");
     exit(-1);
   }
 
-  node* tree = read_file(argv[1], cant_personas_out);
-  char* output = "output.txt";
-  FILE* file2 = fopen(output, "w");
-  fclose(file2);
-  print_personas(tree);
-  print_node(cant_personas_out);
+  //iniciamos el nodo root
+  struct AVLNode *head = NULL;
 
+  //leemos el archivo y creamos el arbol
+  readFile(argv[1], &head, &cant_personas_in);
+
+  //se imprime la estructura del arbol
+  printAVLTree(head);
+
+  char *finalListOfNames;
+  finalListOfNames = (char *)malloc(MAX_lARGO_NOMBRE * cant_personas_in);
+
+  reverse_inorder(head);
+
+  freeAllMemoryInAVLTree(head);
   return 0;
 }

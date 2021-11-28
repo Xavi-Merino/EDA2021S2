@@ -1,170 +1,202 @@
-
 #include "funciones.h"
 
-#include <string.h>
+size_t sizeOfAVLNode = sizeof(AVLNode *);
 
-// funcion que crea un nodo con los datos de la persona
-node *new_node(char *name, int danger_category, float attack_prob) {
-  node *new_node = (node *)malloc(sizeof(node));
-  strcpy(new_node->name, name);
-  new_node->danger_category = danger_category;
-  new_node->attack_prob = attack_prob;
-  new_node->height = 1;
-  new_node->left = NULL;
-  new_node->right = NULL;
-  return new_node;
-}
-
-// funcion que calcula la altura maxima entre dos nodos
-int max(int a, int b) { return (a > b) ? a : b; }
-
-// funcion para extraer la altura del nodo
-int height(node *root) {
-  if (root == NULL) return 0;
-  return root->height;
-}
-
-// funcion para obtener el factor de balance de un nodo
-int getBalance(node *root) {
-  if (root == NULL) return 0;
-  return height(root->left) - height(root->right);
-}
-
-// funcion que actualiza la altura de un nodo
-int updateHeight(node *root) {
-  int lh = 0;
-  int rh = 0;
-  if (root->left != NULL) {
-    lh = root->left->height;
+void freeAllMemoryInAVLTree(AVLNode *const root)
+{
+  if (root)
+  {
+    freeAllMemoryInAVLTree(root->left);
+    freeAllMemoryInAVLTree(root->right);
+    free(root);
   }
-  if (root->right != NULL) {
-    rh = root->right->height;
+}
+
+AVLNode *newAVLNode(char *name, int danger_category, float attack_prob, float factorPeligro)
+{
+  AVLNode *newNode = (AVLNode *)malloc(sizeof(AVLNode));
+
+  strcpy(newNode->name, name);
+  newNode->danger_category = danger_category;
+  newNode->attack_prob = attack_prob;
+  newNode->factorPeligro = factorPeligro;
+  newNode->height = 1;
+  newNode->left = newNode->right = NULL;
+
+  return newNode;
+}
+
+void printAVLNode(AVLNode *const root)
+{
+  if (root)
+  {
+    printf("name : %s, categoria : %d, probabilidad : %f height : %d \n", root->name, root->danger_category, root->attack_prob, root->height);
   }
-  root->height = 1 + max(lh, rh);
-  return root->height;
 }
 
-// funcion para ahcer una rotacion a la derecha
-node *rightRotate(node *root) {
-  if (root == NULL) return NULL;
-  node *left = root->left;
-  node *right = left->right;
+static void printAVLTreeWithIndentation(AVLNode *const root, char const seperator, char const repeater)
+{
+  if (root)
+  {
+    printAVLTreeWithIndentation(root->left, seperator, repeater + 2);
 
-  left->right = root;
-  root->left = right;
-
-  updateHeight(root);
-  updateHeight(left);
-
-  return left;
-}
-
-// funcion para hacer una rotacion a la izquierda
-node *leftRotate(node *root) {
-  if (root == NULL) return NULL;
-  node *right = root->right;
-  node *left = right->left;
-
-  right->left = root;
-  root->right = left;
-
-  updateHeight(root);
-  updateHeight(right);
-  return right;
-}
-
-// funcion que inserta un nodo en el arbol AVL
-
-node *insert(node *root, char *name, int danger_category, float attack_prob) {
-  if (root == NULL) {
-    return new_node(name, danger_category, attack_prob);
-  } else if (name = root->name) {
-    return root;
-  } else if (danger_category < root->danger_category) {
-    if (attack_prob < root->attack_prob) {
-      root->left = insert(root->left, name, danger_category, attack_prob);
-    } else {
-      root->right = insert(root->right, name, danger_category, attack_prob);
+    for (int i = 0; i < repeater; ++i)
+    {
+      printf("%c", seperator);
     }
-  } else {
-    root->right = insert(root->right, name, danger_category, attack_prob);
-  }
 
-  updateHeight(root);
-  int const rootBalance = getBalance(root);
+    printf(">");
+    printAVLNode(root);
 
-  if (rootBalance > 1 && danger_category < root->left->danger_category) {
-    return rightRotate(root);
+    printAVLTreeWithIndentation(root->right, seperator, repeater + 2);
   }
-  if (rootBalance < -1 && danger_category > root->right->danger_category) {
-    return leftRotate(root);
+}
+void printAVLTree(AVLNode *const root)
+{
+  printf("\n");
+  printAVLTreeWithIndentation(root, '-', 0);
+}
+
+inline int heightOfAVLNode(AVLNode *const root)
+{
+  return root ? root->height : 0;
+}
+
+inline int max(int const numberOne, int const numberTwo)
+{
+  return (numberOne > numberTwo) ? numberOne : numberTwo;
+}
+
+int updateHeight(AVLNode *const root)
+{
+  if (root)
+  {
+    root->height = 1 + max(heightOfAVLNode(root->left), heightOfAVLNode(root->right));
+    return root->height;
+  }
+  return 0;
+}
+
+int balanceFactorOfAVLNode(AVLNode *const root)
+{
+  return root ? heightOfAVLNode(root->left) - heightOfAVLNode(root->right) : 0;
+}
+
+AVLNode *rotateRight(AVLNode *const root)
+{
+  if (root)
+  {
+
+    AVLNode *const leftChild = root->left;
+    AVLNode *const rightOfLeftChild = leftChild->right;
+
+    leftChild->right = root;
+    root->left = rightOfLeftChild;
+
+    updateHeight(root);
+    updateHeight(leftChild);
+
+    return leftChild;
   }
   return root;
 }
-// leemos archivo
-node *read_file(char *filename, int N) {
-  FILE *filelist;
-  char name[1000];
-  int category;
-  float attack_prob;
-  filelist = fopen(filename, "r");
-  char line[10000];
-  int count = 0;
-  while (fgets(line, 999, filelist) != NULL) {
-    count++;
+
+AVLNode *rotateLeft(AVLNode *const root)
+{
+  if (root)
+  {
+    AVLNode *rightChild = root->right;
+    AVLNode *leftOfRightChild = rightChild->left;
+
+    rightChild->left = root;
+    root->right = leftOfRightChild;
+
+    //actualizar informacion de altura
+    updateHeight(root);
+    updateHeight(rightChild);
+
+    return rightChild;
   }
-  fclose(filelist);
-  if (count < N) {
-    printf("%s\n",
-           "El valor ingresado es mayor a la cantidad de datos del archivo");
-    exit(-1);
+  return root;
+}
+AVLNode *insert(AVLNode *root, char *name, int danger_category, float attack_prob, float factorPeligro)
+{
+  if (root)
+  {
+    //verifica que el nombre no este en el arbol par ano introducir el nodo
+    if (root->name != name)
+    {
+      if (factorPeligro < root->factorPeligro)
+      {
+        root->left = insert(root->left, name, danger_category, attack_prob, factorPeligro);
+      }
+      else if (factorPeligro > root->factorPeligro)
+      {
+        root->right = insert(root->right, name, danger_category, attack_prob, factorPeligro);
+      }
+      updateHeight(root);
+
+      int const rootBalanceFactor = balanceFactorOfAVLNode(root);
+
+      if (rootBalanceFactor > 1)
+      {
+        if (factorPeligro > root->left->factorPeligro)
+          root->left = rotateLeft(root->left);
+        root = rotateRight(root);
+      }
+      else if (rootBalanceFactor < -1)
+      {
+        if (factorPeligro < root->right->factorPeligro)
+          root->right = rotateRight(root->right);
+        root = rotateLeft(root);
+      }
+    }
+
+    return root;
   }
-  N = count;
-  node *personas = NULL;
 
-  filelist = fopen(filename, "r");
-  count = 0;
-  fgets(line, 999, filelist);
-
-  while (fgets(line, 999, filelist) != NULL) {
-    strcpy(name, strtok(line, ","));
-    category = atoi(strtok(NULL, ","));
-    attack_prob = atof(strtok(NULL, ","));
-    personas = insert(personas, name, category, attack_prob);
-
-    count++;
-  }
-
-  return personas;
+  return newAVLNode(name, danger_category, attack_prob, factorPeligro);
+}
+static AVLNode *orElse(AVLNode *firstChoice, AVLNode *secondChoice)
+{
+  return firstChoice ? firstChoice : secondChoice;
 }
 
-void print_personas(node *root) {
-  char temp[1000];
-  if (root == NULL) return;
-  if (root->right != NULL) {
-    print_personas(root->right);
-  }
-  char *output = "output.txt";
-  FILE *file = fopen(output, "a");
-  strcpy(temp, root->name);
-  strcat(temp, "\n");
-  fputs(temp, file);
-  fclose(file);
-  if (root->left != NULL) {
-    print_personas(root->left);
+void readFile(char *fileName, AVLNode **root, int *cantidad_personas_in)
+{
+  FILE *file = fopen(fileName, "r");
+  if (file)
+  {
+    char name[60];
+    int category = 0;
+    float attack_prob = 0;
+    float factorPeligro = 0;
+    char line[1000];
+    fgets(line, 999, file);
+    int count = 0;
+
+    while (fgets(line, 999, file) != NULL)
+    {
+      strcpy(name, strtok(line, ","));
+      category = atoi(strtok(NULL, ","));
+      attack_prob = atof(strtok(NULL, ","));
+      factorPeligro = category + attack_prob;
+      *root = insert(*root, name, category, attack_prob, factorPeligro);
+      count++;
+    }
+    *cantidad_personas_in = count;
+    fclose(file);
   }
 }
 
-void print_node(int cant) {
-  char personajes[100];
-  char *salida = "output.txt";
-  FILE *file2 = fopen(salida, "r");
-  int cont = 0;
+void reverse_inorder(AVLNode *root)
+{
+  if (root == NULL)
+    return;
 
-  while ((fgets(personajes, 999, file2) != NULL) && (cont < cant)) {
-    cont++;
-    strcpy(personajes, strtok(personajes, ","));
-    printf(personajes);
-  }
-  fclose(file2);
+  reverse_inorder(root->right);
+
+  printf("%s \n", root->name);
+
+  reverse_inorder(root->left);
 }
