@@ -1,13 +1,12 @@
 first_name,danger_category,attack_prob
 Kearney Carding,1,0.2733129
-Antonin Revans,1,0.12445
-Conney Lochrie,5,0.5234
-Anton Sellack,2,0.2345
+Antonin Revans,1,
+Conney Lochrie,5,
+Anton Sellack,2,
 Lory Brydie,3,0.3140912
-javier merino,3,0.23423
+javier merino,3,0.25345
 Tucker Dullingham,2,0.8506748
 Salomi Oret,2,0.2404978
-Denver Fawcus,5,0.3961412
 Cary Reinbech,2,0.6303626
 Bibby Baly,4,0.3097457
 Prudence Espley,3,0.3514395
@@ -19,14 +18,15 @@ Avril Kiley,2,0.4007471
 Dulcy Minmagh,4,0.7023929
 Lina Dillinger,3,0.0748931
 Gaye Chitty,5,0.2887894
-Alvaro Robert,5,0.2887894
+Alvaro Robert, 5,0.2887894
 Denver Fawcus,5,0.3961412
-Cary Reinbech,2,0.6303626
-Bibby Baly,4,0.3097457
-Prudence Espley,3,0.3514395
-Bradly Sparshott,3,0.5678769
-Kristel Frye,5,0.115855
-Zoe Whalley,4,0.8261434
-Willamina Keable,2,0.1457566
-Zoe Whalley,4,0.8261434
-Zoe Whalley,4,0.8261434
+nombre 1, 4, 0.26734
+nombre 2, 2, 0.3674
+nombre 3, 4, 0.12123
+nombre 4, 2, 0.1636
+nombre 5, 3, 0.1243
+nombre 6, 2, 0.25354
+nombre 7, 3, 0.273283
+nombre 8, 1, 0.7362
+nombre 9, 2, 0.3546
+nombre 10, 4,0.345
