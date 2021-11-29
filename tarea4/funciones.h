@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct AVLNode {
+typedef struct AVLNode
+{
   struct AVLNode *left;
   struct AVLNode *right;
   char name[60];
